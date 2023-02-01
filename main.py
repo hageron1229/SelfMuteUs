@@ -1,27 +1,30 @@
 import asyncio
-from sys import exit
 import time
+from sys import exit
 
-import init
 import discord_control
+import init
 import quart_control
 
 print("準備中")
 
-#get discord token
+# get discord token
 discord_bot_token = init.get_discord_bot_token()
 
-#discord
+# discord
 client = discord_control.get_client(quart_control)
 
-#quart
+# quart
 app = quart_control.get_app(discord_control)
+
+
 async def parallel_by_gather():
 	cors = [client.start(discord_bot_token), app.run_task(port=5002)]
 	results = await asyncio.gather(*cors)
 	return results
 
-#run
+
+# run
 try:
 	loop = asyncio.get_event_loop()
 	results = loop.run_until_complete(parallel_by_gather())
