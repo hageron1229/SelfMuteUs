@@ -138,7 +138,7 @@ html = """<!DOCTYPE html>
 		connection.send(JSON.stringify(data));
 	}
 
-	var connection = new WebSocket("ws://127.0.0.1:5000/ws");
+	var connection = new WebSocket("ws://127.0.0.1:5002/ws");
 	connection.onopen = function(event) {
 		document.getElementById("connection_status").innerHTML = "接続中";
 		get_player_info()

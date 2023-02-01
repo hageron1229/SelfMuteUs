@@ -2,7 +2,8 @@ import discord
 import os
 import webbrowser
 
-client = discord.Client()
+intents = discord.Intents.all()
+client = discord.Client(intents=intents)
 @client.event
 async def on_ready():
 	st = discord.Activity(name="SelfMuteUs",type=discord.ActivityType.listening)
@@ -27,7 +28,7 @@ async def on_message(message):
 					return
 				channel = message.channel
 				vc = voice_state.channel
-			webbrowser.open("http://127.0.0.1:5000")
+			webbrowser.open("http://127.0.0.1:5002")
 			await message.delete()
 
 @client.event

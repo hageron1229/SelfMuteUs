@@ -16,14 +16,21 @@ client = discord_control.get_client(quart_control)
 
 #quart
 app = quart_control.get_app(discord_control)
-client.loop.create_task(app.run_task())
+async def parallel_by_gather():
+	cors = [client.start(discord_bot_token), app.run_task(port=5002)]
+	results = await asyncio.gather(*cors)
+	return results
 
 #run
 try:
-	client.run(discord_bot_token)
-except:
+	loop = asyncio.get_event_loop()
+	results = loop.run_until_complete(parallel_by_gather())
+except Exception as e:
 	print("Discord Bot Tokenが正しく設定されていない可能性があります。")
 	print("再設定してください。")
 	print("このウィンドウは10秒以内に自動的に閉じられます。")
+	print(e)
 	time.sleep(10)
 	exit()
+
+loop.close()
